@@ -1,37 +1,38 @@
 #include <iostream>
+#include <numeric>
+#include <unordered_map>
 #include <vector>
 
 using namespace std;
 
 class Solution {
 public:
-    int getMoneyAmount(int n) {
-        vector<int> dp(n + 1, 0);
-        for (int i = 1; i < n + 1; ++i) {
-            if (i < 4) {
-                dp[i] = i - 1;
-            } else {
-                int pivot = (i - 1) - 2;
-                int left = dp[pivot - 1];
-                int right = (i - 1);
-                dp[i] = pivot + max(left, right);
+    /**
+     * We do not know how to pick the pivot
+     * we can only use brute force to pice pivot
+     * The
+     */
+    int getMoneyAmount(int n) { return divideconq(1, n); }
+
+    int divideconq(int start, int end) {
+        if (start >= end) {
+            return 0;
+        }
+
+        int res = numeric_limits<int>::max();
+        for (int i = start; i <= end; ++i) {
+            int left = divideconq(start, i - 1);
+            int right = divideconq(i + 1, end);
+            int cur = i + max(left, right);
+            if (res > cur) {
+                res = cur;
             }
         }
-        cout << "  ";
-        int i = 0;
-        for (auto e : dp) {
-            cout << i << " ";
-            ++i;
-        }
-        cout << "\n";
-        for (auto e : dp) {
-            cout << e << " ";
-        }
-        cout << "\n";
-        return dp[n];
+        return res;
     }
 };
 
 int main() {
-    Solution().getMoneyAmount(21);
+    int x = Solution().getMoneyAmount(20);
+    cout << x << endl;
 }
