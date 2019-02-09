@@ -1,3 +1,4 @@
+#include <chrono>
 #include <iostream>
 #include <numeric>
 #include <unordered_map>
@@ -18,34 +19,34 @@ public:
         unordered_map<int, int> dp;
         return divideconq(dp, n, 1, n);
     }
-
-    int divideconq(unordered_map<int, int>& dp, int& n, int start, int end) {
-        if (start >= end) {
+    int divideconq(unordered_map<int, int>& dp, int& n, int lo, int hi) {
+        if (lo >= hi) {
             return 0;
         }
-
-        int key = start * n + end;
-        auto it = dp.find(key);
-        if (it != dp.end()) {
-            return it->second;
+        int key = lo * n + hi;
+        if (dp.find(key) != dp.end()) {
+            return dp[key];
         }
-
-        int res = numeric_limits<int>::max();
-        for (int i = start; i <= end; ++i) {
-            int left = divideconq(dp, n, start, i - 1);
-            int right = divideconq(dp, n, i + 1, end);
-            int cur = i + max(left, right);
+        int res = INT_MAX;
+        for (int i = (lo + hi) / 2; i < hi; ++i) {
+            int right = divideconq(dp, n, i + 1, hi);
+            int cur = i + max(divideconq(dp, n, lo, i - 1),
+                              divideconq(dp, n, i + 1, hi));
             if (res > cur) {
                 res = cur;
             }
         }
         dp[key] = res;
-
         return res;
     }
 };
 
 int main() {
+    auto start = chrono::system_clock::now();
     int x = Solution().getMoneyAmount(100);
+    auto end = chrono::system_clock::now();
     cout << x << endl;
+    cout << "Time used: "
+         << chrono::duration_cast<chrono::microseconds>(end - start).count()
+         << endl;
 }
