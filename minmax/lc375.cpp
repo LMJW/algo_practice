@@ -22,19 +22,22 @@ public:
     int divideconq(unordered_map<int, int>& dp, int& n, int lo, int hi) {
         if (lo >= hi) {
             return 0;
+        } else if (hi <= lo + 1) {
+            return lo;
         }
+
         int key = lo * n + hi;
         if (dp.find(key) != dp.end()) {
             return dp[key];
         }
         int res = INT_MAX;
-        for (int i = (lo + hi) / 2; i < hi; ++i) {
-            int right = divideconq(dp, n, i + 1, hi);
+        for (int i = hi - 1; i >= lo; i -= 2) {
             int cur = i + max(divideconq(dp, n, lo, i - 1),
                               divideconq(dp, n, i + 1, hi));
-            if (res > cur) {
-                res = cur;
+            if (cur > res) {
+                break;
             }
+            res = cur;
         }
         dp[key] = res;
         return res;
