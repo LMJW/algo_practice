@@ -15,27 +15,31 @@ public:
      * The
      */
     int getMoneyAmount(int n) {
-        vector<vector<int>> dp(n + 1, vector<int>(n + 1, -1));
-        return divideconq(dp, 1, n);
+        unordered_map<int, int> dp;
+        return divideconq(dp, n, 1, n);
     }
 
-    int divideconq(vector<vector<int>>& dp, int start, int end) {
+    int divideconq(unordered_map<int, int>& dp, int& n, int start, int end) {
         if (start >= end) {
             return 0;
         }
-        if (dp[start][end] > -1) {
-            return dp[start][end];
+
+        int key = start * n + end;
+        auto it = dp.find(key);
+        if (it != dp.end()) {
+            return it->second;
         }
+
         int res = numeric_limits<int>::max();
         for (int i = start; i <= end; ++i) {
-            int left = divideconq(dp, start, i - 1);
-            int right = divideconq(dp, i + 1, end);
+            int left = divideconq(dp, n, start, i - 1);
+            int right = divideconq(dp, n, i + 1, end);
             int cur = i + max(left, right);
             if (res > cur) {
                 res = cur;
             }
         }
-        dp[start][end] = res;
+        dp[key] = res;
 
         return res;
     }
