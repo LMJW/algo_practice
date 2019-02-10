@@ -32,29 +32,27 @@ public:
             /// as long as one move wins, this player win
             bool lores, hires;
             if (player) {
-                lores =
-                    minmax(nums, lo + 1, hi, !player, ps_1 + nums[lo], ps_2);
-                hires =
-                    minmax(nums, lo, hi - 1, !player, ps_1 + nums[hi], ps_2);
+                return minmax(nums, lo + 1, hi, !player, ps_1 + nums[lo],
+                              ps_2) ||
+                       minmax(nums, lo, hi - 1, !player, ps_1 + nums[hi], ps_2);
             } else {
-                lores =
-                    minmax(nums, lo + 1, hi, !player, ps_1, ps_2 + nums[lo]);
-                hires =
-                    minmax(nums, lo, hi - 1, !player, ps_1, ps_2 + nums[hi]);
+                return minmax(nums, lo + 1, hi, !player, ps_1,
+                              ps_2 + nums[lo]) &&
+                       minmax(nums, lo, hi - 1, !player, ps_1, ps_2 + nums[hi]);
             }
 
-            if (player) {
-                res = lores || hires;
-            } else {
-                res = lores && hires;
-            }
+            // if (player) {
+            //     res = lores || hires;
+            // } else {
+            //     res = lores && hires;
+            // }
         }
         return res;
     }
 };
 
 int main() {
-    vector<int> arr = {1, 5, 2};
+    vector<int> arr = {1, 5, 233, 7};
     int x = Solution().PredictTheWinner(arr);
     cout << x << "\n";
 }
