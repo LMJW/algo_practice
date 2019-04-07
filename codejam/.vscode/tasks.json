@@ -6,10 +6,10 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "g++ -pipe -std=c++11 -g ${file} -o ${fileDirname}/a.out",
+            "command": "g++ ${file} -std=c++14 -pthread -O3 -o ${workspaceFolder}/a.out",
             "problemMatcher": [
                 "$gcc"
-            ]
+            ] //g++ Solution.cc -std=c++14 -pthread -O3 -o Solution
         }
     ]
 }

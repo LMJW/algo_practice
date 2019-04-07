@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             // "program": "${workspaceFolder}/minmax/a.out",
-            "program": "${fileDirname}/a.out",
+            "program": "${workspaceFolder}/a.out",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -17,7 +17,7 @@
             "externalConsole": true,
             "MIMode": "lldb",
             "preLaunchTask": "build",
-            "miDebuggerPath": "/Users/will/.vscode/extensions/ms-vscode.cpptools-0.22.1/debugAdapters/lldb/bin/lldb-mi"
+            "miDebuggerPath": "/Applications/Xcode.app/Contents/Developer/usr/bin/lldb-mi"
         },
     ]
 }

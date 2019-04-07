@@ -1,0 +1,11 @@
+{
+    "python.formatting.provider": "yapf",
+    "files.associations": {
+        "vector": "cpp",
+        "string": "cpp",
+        "iosfwd": "cpp",
+        "regex": "cpp",
+        "algorithm": "cpp",
+        "ostream": "cpp"
+    }
+}
