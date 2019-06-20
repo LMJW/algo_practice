@@ -2,51 +2,67 @@
  * @param {string[]} grid
  * @return {number}
  */
-
 var regionsBySlashes = function (grid) {
-    let N = grid.length
-    let ng = [...Array(3 * N)].map(() => (Array(3 * N).fill(null)))
-
-    for (let i = 0; i < N; ++i) {
-        for (let j = 0; j < N; ++j) {
+    const m = new Map();
+    const N = grid.length;
+    for (let i = 0; i < N; i++) {
+        for (let j = 0; j < N; j++) {
             let t = grid[i][j];
-            if (t === '/') {
-                for (let k = 0; k < 3; ++k) {
-                    ng[i * 3 + 2 - k][j * 3 + k] = 'x';
-                }
-            } else if (t === '\\') {
-                for (let k = 0; k < 3; ++k) {
-                    ng[i * 3 + k][j * 3 + k] = 'x';
-                }
+            if (t === "/") {
+                union(m, `${i}:${j}:${0}`, `${i}:${j}:${3}`);
+                union(m, `${i}:${j}:${1}`, `${i}:${j}:${2}`);
+            } else if (t === "\\") {
+                union(m, `${i}:${j}:${0}`, `${i}:${j}:${1}`);
+                union(m, `${i}:${j}:${2}`, `${i}:${j}:${3}`);
+            } else {
+                union(m, `${i}:${j}:${0}`, `${i}:${j}:${1}`);
+                union(m, `${i}:${j}:${2}`, `${i}:${j}:${3}`);
+                union(m, `${i}:${j}:${0}`, `${i}:${j}:${2}`);
             }
         }
     }
-    let count = 0;
-    const dfs = (r, c) => {
-        if (r < 0 || c < 0 || r >= 3 * N || c >= 3 * N) {
-            return
-        }
-        let tmp = ng[r][c];
-        if (tmp === 'x' || tmp === true) {
-            return
-        }
-        ng[r][c] = true;
-        dfs(r - 1, c);
-        dfs(r + 1, c);
-        dfs(r, c + 1);
-        dfs(r, c - 1);
-    }
-
-    for (let i = 0; i < 3 * N; ++i) {
-        for (let j = 0; j < 3 * N; ++j) {
-            if (ng[i][j] !== true && ng[i][j] !== 'x') count++;
-            dfs(i, j)
+    for (let i = 0; i < N; i++) {
+        for (let j = 0; j < N; j++) {
+            if (i !== N - 1) {
+                union(m, `${i}:${j}:${1}`, `${i + 1}:${j}:${3}`);
+            }
+            if (j !== N - 1) {
+                union(m, `${i}:${j}:${2}`, `${i}:${j + 1}:${0}`);
+            }
         }
     }
-    return count;
+    let res = new Set(m.values());
+    return res.size;
 };
 
+// map : Map object
+// key : string type key i:j:[0123]
+const find = (map, key) => {
+    let t = map.get(key);
+    if (t === undefined) {
+        map.set(key, key);
+        return key;
+    }
+    let tt = map.get(t);
+    while (tt !== t) {
+        t = tt;
+        tt = map.get(t);
+    }
+    map.set(key, t);
+    return t;
+};
 
-// regionsBySlashes(["\\ //\\", " \\\\  ", "///\\/", "/\\ \\/", "// \\\\"])
+// map : Map
+// key1, key2 : string type keys
+const union = (map, key1, key2) => {
+    let x = find(map, key1);
+    let y = find(map, key2);
+
+    if (x === y) {
+        return;
+    }
+    map.set(x, y);
+};
+
 let x = regionsBySlashes(["\\/\\ ", " /\\/", " \\/ ", "/ / "])
-console.log(x)
+console.log(x);

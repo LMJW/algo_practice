@@ -7,8 +7,15 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
+      "name": "nodejs debug",
       "program": "${file}"
+    },
+    {
+      "name": "Python: Current File",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal"
     },
     {
       "name": "(lldb) Launch",
