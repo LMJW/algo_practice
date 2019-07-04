@@ -30,7 +30,7 @@
       "externalConsole": true,
       "MIMode": "lldb",
       "preLaunchTask": "build",
-      "miDebuggerPath": "/Users/will/.vscode/extensions/ms-vscode.cpptools-0.22.1/debugAdapters/lldb/bin/lldb-mi"
+      "miDebuggerPath": "/Users/will/.vscode/extensions/ms-vscode.cpptools-0.24.0/debugAdapters/lldb/bin/lldb-mi"
     }
   ]
 }

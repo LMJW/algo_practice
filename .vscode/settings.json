@@ -6,6 +6,9 @@
         "iosfwd": "cpp",
         "regex": "cpp",
         "algorithm": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "__functional_03": "cpp",
+        "functional": "cpp",
+        "utility": "cpp"
     }
 }
